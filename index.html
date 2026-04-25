@@ -1,0 +1,1995 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>✦ DONCELLA DE HIERRO ✦ — el juego</title>
+<link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Satisfy&family=Fredoka+One&family=Nunito:wght@400;600;700;800&family=Boogaloo&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --pink: #FF69B4;
+    --hot-pink: #FF1493;
+    --baby-pink: #FFB6C1;
+    --purple: #DA70D6;
+    --lavender: #E6CCFF;
+    --gold: #FFD700;
+    --cream: #FFF5F8;
+    --dark: #3D0030;
+    --mid: #8B0057;
+    --glitter: #FF85C8;
+    --blood: #C0003A;
+    --iron: #888;
+    --iron-dark: #444;
+    --white: #FFFFFF;
+    --shadow-pink: 0 0 20px rgba(255,105,180,0.6);
+    --bar-hp: 100;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  /* ===== 2010s GIRL WEB BODY ===== */
+  body {
+    font-family: 'Nunito', sans-serif;
+    min-height: 100vh;
+    width: 100%;
+    overflow-x: hidden;
+    background:
+      url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Ctext x='5' y='35' font-size='22' opacity='0.13'%3E✦%3C/text%3E%3Ctext x='32' y='18' font-size='14' opacity='0.1'%3E♡%3C/text%3E%3Ctext x='40' y='50' font-size='12' opacity='0.08'%3E✿%3C/text%3E%3C/svg%3E"),
+      linear-gradient(160deg, #FF69B4 0%, #ff3fa0 20%, #c000a0 45%, #8B00FF 70%, #ff69d0 100%);
+    background-attachment: fixed;
+  }
+
+  /* ===== SPARKLE CURSOR ===== */
+  body * { cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Ctext y='16' font-size='16'%3E✦%3C/text%3E%3C/svg%3E"), auto; }
+
+  /* ===== GLITTER BORDER ANIMATION ===== */
+  @keyframes glitterBorder {
+    0%,100% { border-color: #FF1493; box-shadow: 0 0 15px #FF1493, 0 0 30px rgba(255,20,147,0.4); }
+    25% { border-color: #FFD700; box-shadow: 0 0 15px #FFD700, 0 0 30px rgba(255,215,0,0.4); }
+    50% { border-color: #DA70D6; box-shadow: 0 0 15px #DA70D6, 0 0 30px rgba(218,112,214,0.4); }
+    75% { border-color: #FF69B4; box-shadow: 0 0 15px #FF69B4, 0 0 30px rgba(255,105,180,0.4); }
+  }
+
+  @keyframes shimmer {
+    0% { background-position: -200% center; }
+    100% { background-position: 200% center; }
+  }
+
+  @keyframes float {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+
+  @keyframes sparkleIn {
+    0% { opacity: 0; transform: scale(0) rotate(-30deg); }
+    60% { opacity: 1; transform: scale(1.1) rotate(5deg); }
+    100% { opacity: 1; transform: scale(1) rotate(0); }
+  }
+
+  @keyframes rainbowText {
+    0%   { color: #FF1493; }
+    20%  { color: #FFD700; }
+    40%  { color: #DA70D6; }
+    60%  { color: #FF69B4; }
+    80%  { color: #FF85C8; }
+    100% { color: #FF1493; }
+  }
+
+  @keyframes pulse-glow {
+    0%,100% { box-shadow: 0 0 10px rgba(255,20,147,0.6), inset 0 0 10px rgba(255,20,147,0.2); }
+    50% { box-shadow: 0 0 25px rgba(255,20,147,0.9), inset 0 0 20px rgba(255,20,147,0.35); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes gameOverShake {
+    0%,100% { transform: translateX(0); }
+    15% { transform: translateX(-8px); }
+    30% { transform: translateX(8px); }
+    45% { transform: translateX(-6px); }
+    60% { transform: translateX(6px); }
+    75% { transform: translateX(-3px); }
+    90% { transform: translateX(3px); }
+  }
+
+  @keyframes ironMaidenDrop {
+    0% { transform: translateY(-60px) scaleY(0.5); opacity: 0; }
+    60% { transform: translateY(6px) scaleY(1.05); opacity: 1; }
+    80% { transform: translateY(-3px) scaleY(0.97); }
+    100% { transform: translateY(0) scaleY(1); opacity: 1; }
+  }
+
+  @keyframes ptsFly {
+    0% { opacity: 1; transform: translateY(0) scale(1); }
+    70% { opacity: 1; transform: translateY(-50px) scale(1.3); }
+    100% { opacity: 0; transform: translateY(-90px) scale(0.8); }
+  }
+
+  @keyframes glitterRain {
+    0% { transform: translateY(-10px) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(calc(100vh + 20px)) rotate(720deg); opacity: 0; }
+  }
+
+  /* ===== GLITTER PARTICLES ===== */
+  .glitter-particle {
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    font-size: 12px;
+    animation: glitterRain linear forwards;
+    color: #FFD700;
+  }
+
+  /* ===== HEADER ===== */
+  #game-header {
+    text-align: center;
+    padding: 14px 10px 12px;
+    position: relative;
+    background: linear-gradient(135deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.15) 100%);
+    border-bottom: 3px solid rgba(255,215,0,0.7);
+    box-shadow: 0 4px 30px rgba(0,0,0,0.3);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
+
+  #game-header h1 {
+    font-family: 'Boogaloo', cursive;
+    color: var(--white);
+    font-size: clamp(2rem, 6vw, 3.6rem);
+    text-shadow:
+      3px 3px 0 #8B0057,
+      6px 6px 0 rgba(139,0,87,0.4),
+      0 0 30px rgba(255,215,0,0.7),
+      -1px -1px 0 var(--gold);
+    letter-spacing: 5px;
+    animation: float 3s ease-in-out infinite;
+  }
+
+  #game-header .subtitle {
+    font-family: 'Satisfy', cursive;
+    color: var(--gold);
+    font-size: clamp(0.75rem, 2vw, 1rem);
+    margin-top: 2px;
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.5);
+    animation: rainbowText 4s linear infinite;
+  }
+
+  .deco-stars {
+    color: var(--gold);
+    font-size: 1.1rem;
+    letter-spacing: 8px;
+    display: block;
+    margin: 3px 0;
+    text-shadow: 0 0 10px rgba(255,215,0,0.8);
+    animation: rainbowText 3s linear infinite;
+  }
+
+  /* ===== MAIN LAYOUT ===== */
+  #game-container {
+    display: flex;
+    gap: 14px;
+    padding: 14px;
+    max-width: 980px;
+    margin: 0 auto;
+    padding-bottom: 110px;
+    align-items: flex-start;
+  }
+
+  /* ===== AVATAR PANEL ===== */
+  #avatar-panel {
+    width: 220px;
+    min-width: 200px;
+    position: sticky;
+    top: 10px;
+    align-self: flex-start;
+    flex-shrink: 0;
+  }
+
+  #avatar-frame {
+    background: linear-gradient(160deg, rgba(255,255,255,0.25) 0%, rgba(255,182,193,0.2) 100%);
+    border: 3px solid var(--gold);
+    border-radius: 20px;
+    box-shadow: 0 0 0 3px rgba(255,20,147,0.4), 0 8px 32px rgba(0,0,0,0.3);
+    overflow: hidden;
+    position: relative;
+    padding: 10px;
+    text-align: center;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    animation: glitterBorder 3s linear infinite;
+  }
+
+  #avatar-frame::before {
+    content: '✿ tu doncella ✿';
+    display: block;
+    font-family: 'Satisfy', cursive;
+    color: var(--gold);
+    font-size: 0.82rem;
+    margin-bottom: 6px;
+    text-shadow: 0 0 8px rgba(255,215,0,0.7);
+  }
+
+  #avatar-canvas {
+    width: 160px;
+    height: 200px;
+    position: relative;
+    margin: 0 auto;
+    display: block;
+    border-radius: 12px;
+    overflow: hidden;
+    background: linear-gradient(180deg, rgba(255,230,245,0.15) 0%, rgba(255,180,220,0.1) 100%);
+  }
+
+  /* SVG avatar layers (new system) */
+  .avatar-svg-layer {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  /* ===== QUESTIONS PANEL ===== */
+  #questions-panel {
+    flex: 1;
+    min-width: 0;
+  }
+
+  /* ===== SCREENS ===== */
+  .screen {
+    display: none;
+    animation: fadeIn 0.4s ease;
+  }
+  .screen.active { display: block; }
+
+  /* ===== CARD BASE ===== */
+  .game-card {
+    background: linear-gradient(160deg, rgba(255,255,255,0.22) 0%, rgba(255,182,193,0.18) 100%);
+    border: 2.5px solid rgba(255,215,0,0.6);
+    border-radius: 20px;
+    padding: 22px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.25);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  /* ===== INTRO SCREEN ===== */
+  #intro-screen {
+    text-align: center;
+  }
+
+  #intro-screen h2 {
+    font-family: 'Abril Fatface', serif;
+    color: var(--white);
+    font-size: 1.6rem;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 0 #8B0057, 0 0 15px rgba(255,215,0,0.5);
+  }
+
+  #intro-screen p {
+    color: rgba(255,255,255,0.92);
+    line-height: 1.6;
+    font-size: 0.93rem;
+    margin-bottom: 14px;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.4);
+  }
+
+  #intro-screen p strong { color: var(--gold); }
+
+  .iron-maiden-icon {
+    font-size: 3rem;
+    display: block;
+    margin: 10px auto;
+    filter: drop-shadow(0 0 10px var(--gold));
+    animation: float 2.5s ease-in-out infinite;
+  }
+
+  /* ===== QUESTION CARD ===== */
+  .q-number {
+    font-family: 'Satisfy', cursive;
+    color: var(--gold);
+    font-size: 0.9rem;
+    display: block;
+    margin-bottom: 4px;
+    text-shadow: 0 0 8px rgba(255,215,0,0.5);
+  }
+
+  .q-title {
+    font-family: 'Fredoka One', cursive;
+    color: var(--white);
+    font-size: 1.35rem;
+    margin-bottom: 16px;
+    border-bottom: 2px dashed rgba(255,215,0,0.4);
+    padding-bottom: 8px;
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.4);
+  }
+
+  .q-category {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--hot-pink), var(--purple));
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 800;
+    padding: 3px 12px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 2px 10px rgba(255,20,147,0.5);
+  }
+
+  .options-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 11px;
+    margin-top: 10px;
+  }
+
+  .option-btn {
+    background: linear-gradient(135deg, rgba(255,255,255,0.18) 0%, rgba(255,182,193,0.15) 100%);
+    border: 2px solid rgba(255,215,0,0.5);
+    border-radius: 16px;
+    padding: 14px 10px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    text-align: center;
+    font-family: 'Nunito', sans-serif;
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+
+  .option-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,20,147,0.2), rgba(218,112,214,0.2));
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .option-btn:hover::before { opacity: 1; }
+  .option-btn:hover {
+    border-color: var(--gold);
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 6px 20px rgba(255,20,147,0.4), 0 0 15px rgba(255,215,0,0.3);
+  }
+
+  .option-btn.selected {
+    background: linear-gradient(135deg, var(--hot-pink), var(--purple));
+    border-color: var(--gold);
+    transform: scale(1.03);
+    box-shadow: 0 6px 25px rgba(255,20,147,0.6), 0 0 20px rgba(255,215,0,0.4);
+  }
+
+  .option-btn .opt-label {
+    font-size: 0.97rem;
+    font-weight: 800;
+    color: var(--white);
+    display: block;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.4);
+  }
+
+  .option-btn.selected .opt-label { color: white; }
+
+  /* point badges */
+  .pts-badge {
+    display: inline-block;
+    font-size: 0.65rem;
+    font-weight: 800;
+    padding: 2px 8px;
+    border-radius: 20px;
+    margin-top: 5px;
+  }
+  .pts-pos { background: rgba(255,215,0,0.25); color: var(--gold); border: 1px solid rgba(255,215,0,0.4); }
+  .pts-neg { background: rgba(192,0,58,0.25); color: #ff6680; border: 1px solid rgba(192,0,58,0.4); }
+  .pts-zero { background: rgba(255,255,255,0.15); color: rgba(255,255,255,0.7); border: 1px solid rgba(255,255,255,0.2); }
+
+  /* feedback bubble */
+  .feedback-bubble {
+    background: linear-gradient(135deg, rgba(255,20,147,0.2), rgba(218,112,214,0.2));
+    border: 2px solid rgba(255,215,0,0.4);
+    border-radius: 14px;
+    padding: 10px 14px;
+    margin-top: 14px;
+    font-size: 0.83rem;
+    color: rgba(255,255,255,0.9);
+    line-height: 1.5;
+    display: none;
+    animation: fadeIn 0.3s ease;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+
+  .feedback-bubble.visible { display: block; }
+  .feedback-bubble strong { color: var(--gold); }
+
+  /* ===== NAVIGATION ===== */
+  .nav-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 18px;
+    gap: 10px;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--hot-pink), #c000c8, var(--purple));
+    color: white;
+    border: 2px solid var(--gold);
+    border-radius: 30px;
+    padding: 11px 28px;
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.1rem;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(255,20,147,0.5), 0 0 12px rgba(255,215,0,0.3);
+    transition: all 0.2s ease;
+    letter-spacing: 1px;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 30px rgba(255,20,147,0.7), 0 0 20px rgba(255,215,0,0.5);
+  }
+
+  .btn-primary:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .btn-rebirth {
+    background: linear-gradient(135deg, #FFD700, #FF8C00, #FF1493);
+    color: white;
+    border: 3px solid white;
+    border-radius: 30px;
+    padding: 14px 36px;
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.3rem;
+    cursor: pointer;
+    box-shadow: 0 0 30px rgba(255,215,0,0.7), 0 0 60px rgba(255,20,147,0.4);
+    transition: all 0.2s ease;
+    letter-spacing: 2px;
+    animation: pulse-glow 1.5s ease-in-out infinite;
+    text-shadow: 0 2px 6px rgba(0,0,0,0.4);
+    margin-top: 10px;
+  }
+
+  .btn-rebirth:hover {
+    transform: translateY(-4px) scale(1.07);
+    box-shadow: 0 0 50px rgba(255,215,0,0.9), 0 0 80px rgba(255,20,147,0.6);
+  }
+
+  .progress-label {
+    font-family: 'Satisfy', cursive;
+    color: var(--gold);
+    font-size: 0.88rem;
+    text-shadow: 0 0 8px rgba(255,215,0,0.5);
+  }
+
+  /* ===== HP / VISIBILITY BAR ===== */
+  #hp-bar-container {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: linear-gradient(to right, rgba(20,0,20,0.97), rgba(60,0,50,0.97), rgba(20,0,20,0.97));
+    border-top: 3px solid var(--gold);
+    padding: 8px 16px 10px;
+    z-index: 100;
+    box-shadow: 0 -4px 30px rgba(255,20,147,0.4), 0 -1px 0 rgba(255,215,0,0.3);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  #hp-bar-inner {
+    max-width: 980px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .hp-label {
+    font-family: 'Fredoka One', cursive;
+    color: var(--gold);
+    font-size: 0.78rem;
+    white-space: nowrap;
+    text-shadow: 0 0 8px rgba(255,215,0,0.6);
+    flex-shrink: 0;
+  }
+
+  #hp-track {
+    flex: 1;
+    height: 24px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 30px;
+    border: 2px solid rgba(255,215,0,0.4);
+    overflow: hidden;
+    position: relative;
+  }
+
+  #hp-fill {
+    height: 100%;
+    border-radius: 30px;
+    transition: width 0.5s cubic-bezier(.68,-0.55,.27,1.55), background 0.5s;
+    background: linear-gradient(90deg, var(--hot-pink), var(--purple), var(--gold));
+    box-shadow: inset 0 2px 4px rgba(255,255,255,0.3);
+    position: relative;
+  }
+
+  #hp-fill::after {
+    content: '';
+    position: absolute;
+    top: 3px; left: 10px; right: 10px;
+    height: 6px;
+    background: rgba(255,255,255,0.3);
+    border-radius: 10px;
+  }
+
+  /* Warning zone marker */
+  #hp-track::before {
+    content: '';
+    position: absolute;
+    left: 30%;
+    top: 0; bottom: 0;
+    width: 2px;
+    background: rgba(255,50,50,0.6);
+    z-index: 2;
+  }
+
+  #hp-value {
+    font-family: 'Fredoka One', cursive;
+    color: var(--white);
+    font-size: 1rem;
+    min-width: 46px;
+    text-align: right;
+    text-shadow: 0 0 10px var(--hot-pink);
+  }
+
+  /* point flash */
+  .pts-flash {
+    position: fixed;
+    bottom: 80px;
+    right: 24px;
+    font-family: 'Fredoka One', cursive;
+    font-size: 2rem;
+    pointer-events: none;
+    animation: ptsFly 1.3s forwards;
+    z-index: 200;
+    text-shadow: 2px 2px 6px rgba(0,0,0,0.5);
+  }
+
+  /* ===== DEATH SCREEN ===== */
+  #death-screen {
+    background: linear-gradient(160deg, rgba(10,0,8,0.95) 0%, rgba(40,0,20,0.95) 100%);
+    border: 3px solid var(--hot-pink);
+    border-radius: 20px;
+    padding: 18px 20px;
+    text-align: center;
+    box-shadow: 0 0 60px rgba(0,0,0,0.8), 0 0 40px rgba(255,20,147,0.4);
+    color: white;
+    animation: gameOverShake 0.6s ease 0.2s;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  #death-screen h2 {
+    font-family: 'Abril Fatface', serif;
+    font-size: 1.8rem;
+    color: var(--baby-pink);
+    text-shadow: 0 0 20px rgba(255,20,147,0.8);
+    margin-bottom: 10px;
+  }
+
+  .game-over-title {
+    font-family: 'Abril Fatface', serif;
+    font-size: clamp(2.5rem, 8vw, 4rem);
+    color: var(--hot-pink);
+    text-shadow:
+      0 0 20px rgba(255,20,147,1),
+      0 0 40px rgba(255,20,147,0.7),
+      0 0 60px rgba(255,105,180,0.4),
+      3px 3px 0 #1a0010;
+    display: block;
+    letter-spacing: 4px;
+    animation: ironMaidenDrop 0.7s ease forwards, gameOverShake 0.8s ease 0.8s;
+    margin: 10px 0;
+    line-height: 1;
+  }
+
+  /* The Iron Maiden Instrument SVG */
+  .iron-maiden-svg {
+    display: block;
+    margin: 20px auto;
+    animation: ironMaidenDrop 0.8s ease 0.3s both;
+    filter: drop-shadow(0 0 15px rgba(192,0,58,0.7)) drop-shadow(0 0 30px rgba(100,100,100,0.4));
+  }
+
+  #death-screen p {
+    color: rgba(255,255,255,0.7);
+    line-height: 1.7;
+    margin-bottom: 20px;
+    font-size: 0.92rem;
+  }
+
+  .iron-spikes {
+    font-size: 2rem;
+    margin: 12px 0;
+    letter-spacing: 4px;
+    display: block;
+    filter: grayscale(0.5);
+    color: var(--iron);
+  }
+
+  /* ===== END SCREEN ===== */
+  #end-screen {
+    text-align: center;
+  }
+
+  #end-screen h2 {
+    font-family: 'Abril Fatface', serif;
+    color: var(--white);
+    font-size: 1.8rem;
+    margin-bottom: 6px;
+    text-shadow: 2px 2px 0 #8B0057, 0 0 20px rgba(255,215,0,0.6);
+  }
+
+  #invisibility-score {
+    font-family: 'Abril Fatface', serif;
+    font-size: clamp(3.5rem, 10vw, 5rem);
+    background: linear-gradient(135deg, var(--hot-pink), var(--gold), var(--purple));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    background-size: 200% auto;
+    animation: shimmer 2s linear infinite;
+    display: block;
+    margin: 10px 0;
+    line-height: 1;
+    filter: drop-shadow(0 0 20px rgba(255,20,147,0.5));
+  }
+
+  #invisibility-label {
+    font-family: 'Fredoka One', cursive;
+    color: rgba(255,255,255,0.9);
+    font-size: 1rem;
+    margin-bottom: 16px;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.4);
+  }
+
+  #score-commentary {
+    background: rgba(255,20,147,0.12);
+    border-left: 4px solid var(--gold);
+    border-radius: 8px;
+    padding: 12px 16px;
+    text-align: left;
+    font-size: 0.88rem;
+    line-height: 1.6;
+    color: rgba(255,255,255,0.9);
+    margin-bottom: 20px;
+  }
+
+  /* ===== WOLF QUOTE OVERLAY ===== */
+  #wolf-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(10,0,8,0.97);
+    z-index: 300;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  #wolf-overlay.active { display: flex; }
+
+  #wolf-box {
+    max-width: 620px;
+    background: linear-gradient(135deg, rgba(20,0,15,0.98), rgba(8,0,6,0.98));
+    border: 2px solid var(--iron);
+    border-radius: 16px;
+    padding: 32px 28px;
+    text-align: center;
+    box-shadow: 0 0 60px rgba(255,20,147,0.2);
+    animation: fadeIn 0.6s ease;
+  }
+
+  #wolf-box .wolf-header {
+    font-family: 'Satisfy', cursive;
+    color: var(--iron);
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  #wolf-box blockquote {
+    font-size: 0.97rem;
+    line-height: 1.9;
+    color: rgba(255,255,255,0.85);
+    font-style: italic;
+    margin-bottom: 20px;
+    border-left: 3px solid var(--blood);
+    padding-left: 16px;
+    text-align: left;
+  }
+
+  #wolf-box .wolf-source {
+    font-size: 0.78rem;
+    color: var(--iron);
+    margin-bottom: 28px;
+    display: block;
+  }
+
+  #wolf-box .iron-spikes-deco {
+    display: block;
+    font-size: 1.5rem;
+    letter-spacing: 8px;
+    color: var(--iron-dark);
+    margin-bottom: 20px;
+  }
+
+  /* ===== PROGRESS DOTS ===== */
+  #progress-dots {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    flex-wrap: wrap;
+    padding: 8px 10px;
+  }
+
+  .dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    border: 1.5px solid rgba(255,255,255,0.3);
+    transition: all 0.3s;
+  }
+
+  .dot.done { background: var(--hot-pink); border-color: var(--gold); box-shadow: 0 0 5px var(--hot-pink); }
+  .dot.current { background: var(--gold); border-color: white; box-shadow: 0 0 8px var(--gold); }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 700px) {
+    #game-container {
+      flex-direction: column;
+      padding: 10px;
+      gap: 10px;
+      padding-bottom: 100px;
+    }
+
+    #avatar-panel {
+      width: 100%;
+      min-width: unset;
+      position: static;
+      display: flex;
+      flex-direction: row;
+      gap: 10px;
+      align-items: flex-start;
+    }
+
+    #avatar-frame {
+      flex: 0 0 120px;
+      min-width: 120px;
+    }
+
+    #avatar-canvas {
+      width: 100px;
+      height: 150px;
+    }
+
+    #progress-dots {
+      flex: 1;
+      align-content: flex-start;
+      justify-content: flex-start;
+      padding: 4px 6px;
+    }
+
+    .options-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .option-btn {
+      padding: 10px 8px;
+      min-height: 64px;
+    }
+
+    .option-btn .opt-label { font-size: 0.82rem; }
+    .game-card { padding: 14px 12px; }
+    .btn-primary { padding: 9px 18px; font-size: 0.93rem; }
+    .game-over-title { font-size: 2.2rem; }
+    #hp-bar-container { padding: 6px 10px 8px; }
+    .hp-label { font-size: 0.65rem; }
+    #hp-value { font-size: 0.78rem; }
+
+    .q-title { font-size: 1.1rem; margin-bottom: 12px; }
+    .nav-row { margin-top: 12px; }
+
+    /* Wolf overlay on mobile */
+    #wolf-box { padding: 22px 16px; }
+    #wolf-box blockquote { font-size: 0.88rem; line-height: 1.7; }
+  }
+
+  @media (max-width: 420px) {
+    #avatar-frame { flex: 0 0 100px; min-width: 100px; }
+    #avatar-canvas { width: 82px; height: 130px; }
+    .options-grid { grid-template-columns: 1fr 1fr; gap: 6px; }
+    .option-btn { padding: 9px 6px; min-height: 58px; }
+    .option-btn .opt-label { font-size: 0.77rem; }
+    .pts-badge { font-size: 0.6rem; padding: 1px 6px; }
+    .game-card { padding: 12px 10px; }
+    .q-title { font-size: 1rem; }
+    #game-header h1 { font-size: 1.7rem; letter-spacing: 3px; }
+  }
+
+  @media (max-width: 340px) {
+    .options-grid { grid-template-columns: 1fr; }
+    #avatar-frame { flex: 0 0 88px; min-width: 88px; }
+    #avatar-canvas { width: 70px; height: 110px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- GLITTER RAIN SCRIPT (passive, creates falling stars) -->
+<script>
+function spawnGlitter() {
+  const chars = ['✦','♡','✿','★','♪','✨','💖'];
+  const p = document.createElement('div');
+  p.className = 'glitter-particle';
+  p.textContent = chars[Math.floor(Math.random()*chars.length)];
+  p.style.left = Math.random()*100 + 'vw';
+  p.style.top = '-20px';
+  p.style.fontSize = (8 + Math.random()*12) + 'px';
+  p.style.animationDuration = (4 + Math.random()*6) + 's';
+  p.style.animationDelay = Math.random()*2 + 's';
+  p.style.color = ['#FFD700','#FF69B4','#DA70D6','#FF1493','#fff'][Math.floor(Math.random()*5)];
+  p.style.opacity = 0.3 + Math.random()*0.5;
+  document.body.appendChild(p);
+  setTimeout(() => p.remove(), 10000);
+}
+setInterval(spawnGlitter, 600);
+</script>
+
+<!-- HEADER -->
+<div id="game-header">
+  <span class="deco-stars">✦ ♡ ✦ ♡ ✦ ♡ ✦</span>
+  <h1>DONCELLA DE HIERRO</h1>
+  <div class="subtitle">un juego de belleza · una máquina de tortura</div>
+  <span class="deco-stars">✿ ✦ ✿ ✦ ✿ ✦ ✿</span>
+</div>
+
+<!-- MAIN CONTAINER -->
+<div id="game-container">
+
+  <!-- AVATAR PANEL -->
+  <div id="avatar-panel">
+    <div id="avatar-frame">
+      <div id="avatar-canvas" style="position:relative;">
+          <svg class="avatar-svg-layer" id="avatar-svg" viewBox="0 0 160 200" xmlns="http://www.w3.org/2000/svg"></svg>
+          <!-- Iron Maiden overlay — shown on game over, hidden otherwise -->
+          <svg id="iron-maiden-overlay" viewBox="0 0 120 200" xmlns="http://www.w3.org/2000/svg"
+            style="display:none; position:absolute; inset:0; width:100%; height:100%; pointer-events:none;">
+            <defs>
+              <linearGradient id="imGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#777;stop-opacity:0.92" />
+                <stop offset="50%" style="stop-color:#444;stop-opacity:0.95" />
+                <stop offset="100%" style="stop-color:#222;stop-opacity:0.97" />
+              </linearGradient>
+              <linearGradient id="imBlood" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" style="stop-color:#C0003A;stop-opacity:0.9" />
+                <stop offset="100%" style="stop-color:#600010;stop-opacity:0.4" />
+              </linearGradient>
+            </defs>
+            <path d="M20 30 Q60 10 100 30 L108 170 Q60 190 12 170 Z" fill="url(#imGrad)" stroke="#555" stroke-width="2"/>
+            <ellipse cx="60" cy="30" rx="38" ry="28" fill="url(#imGrad)" stroke="#555" stroke-width="2"/>
+            <ellipse cx="60" cy="30" rx="22" ry="18" fill="#1a1a1a" opacity="0.85"/>
+            <ellipse cx="50" cy="25" rx="6" ry="7" fill="#090909"/>
+            <ellipse cx="70" cy="25" rx="6" ry="7" fill="#090909"/>
+            <path d="M45 38 Q60 45 75 38" stroke="#090909" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <line x1="30" y1="60" x2="48" y2="80" stroke="#C0003A" stroke-width="2.5" stroke-linecap="round" opacity="0.9"/>
+            <line x1="35" y1="95" x2="50" y2="110" stroke="#C0003A" stroke-width="2.5" stroke-linecap="round" opacity="0.9"/>
+            <line x1="32" y1="130" x2="48" y2="145" stroke="#C0003A" stroke-width="2.5" stroke-linecap="round" opacity="0.9"/>
+            <line x1="90" y1="60" x2="72" y2="80" stroke="#C0003A" stroke-width="2.5" stroke-linecap="round" opacity="0.9"/>
+            <line x1="85" y1="95" x2="70" y2="110" stroke="#C0003A" stroke-width="2.5" stroke-linecap="round" opacity="0.9"/>
+            <line x1="88" y1="130" x2="72" y2="145" stroke="#C0003A" stroke-width="2.5" stroke-linecap="round" opacity="0.9"/>
+            <line x1="60" y1="55" x2="60" y2="80" stroke="#C0003A" stroke-width="2.5" stroke-linecap="round" opacity="0.8"/>
+            <line x1="60" y1="110" x2="60" y2="135" stroke="#C0003A" stroke-width="2.5" stroke-linecap="round" opacity="0.8"/>
+            <path d="M48 80 Q48 92 50 95" stroke="url(#imBlood)" stroke-width="2" fill="none" stroke-linecap="round"/>
+            <path d="M60 80 Q60 95 62 100" stroke="url(#imBlood)" stroke-width="2" fill="none" stroke-linecap="round"/>
+            <path d="M72 80 Q72 90 70 95" stroke="url(#imBlood)" stroke-width="2" fill="none" stroke-linecap="round"/>
+            <circle cx="22" cy="50" r="3" fill="#666"/><circle cx="22" cy="100" r="3" fill="#666"/><circle cx="22" cy="150" r="3" fill="#666"/>
+            <circle cx="98" cy="50" r="3" fill="#666"/><circle cx="98" cy="100" r="3" fill="#666"/><circle cx="98" cy="150" r="3" fill="#666"/>
+            <line x1="60" y1="58" x2="60" y2="178" stroke="rgba(255,255,255,0.08)" stroke-width="2" stroke-dasharray="4,4"/>
+          </svg>
+      </div>
+    </div>
+
+    <!-- Progress dots -->
+    <div id="progress-dots"></div>
+  </div>
+
+  <!-- QUESTIONS PANEL -->
+  <div id="questions-panel">
+
+    <!-- INTRO -->
+    <div id="intro-screen" class="screen active game-card">
+      <h2>Bienvenida al juego</h2>
+      <p style="padding: 0 2rem;">
+        La <strong>Doncella de Hierro</strong> era un instrumento de tortura: una figura hueca con aspecto de mujer, repleta de picos en su interior. Cuanto más la abrazabas, más te destrozaba.
+      </p>
+      <p style="margin-top:10px; color: rgba(255,255,255,0.95); padding: 0 2rem; font-size: 0.97rem; line-height: 1.7;">
+        Responde 16 preguntas y diseña un avatar virtual —tu doncella— eligiendo sus rasgos uno a uno.<br>
+        Al final descubrirás tu <strong>porcentaje de visibilidad</strong> ante la mirada masculina.
+      </p>
+      <br>
+      <button class="btn-primary" onclick="startGame()">✦ Diseñar mi personaje ✦</button>
+    </div>
+
+    <!-- QUESTION -->
+    <div id="question-screen" class="screen game-card">
+      <span class="q-number" id="q-number-label" style="display:none;"></span>
+      <div class="q-category" id="q-category-label"></div>
+      <div class="q-title" id="q-title-text"></div>
+      <div class="options-grid" id="options-container"></div>
+      <div class="feedback-bubble" id="feedback-bubble"></div>
+      <div class="nav-row">
+        <span class="progress-label" id="progress-label"></span>
+        <button class="btn-primary" id="btn-next" onclick="nextQuestion()" disabled>Siguiente →</button>
+      </div>
+    </div>
+
+    <!-- GAME OVER / DEATH -->
+    <div id="death-screen" class="screen">
+      <div style="text-align:center;">
+        <span class="game-over-title" style="font-size:clamp(1.8rem,6vw,2.8rem); letter-spacing:3px;">GAME OVER</span>
+        <h2 style="font-size:1.1rem; margin:8px 0 6px;">La Doncella te ha encerrado</h2>
+        <p style="font-size:0.82rem; margin-bottom:6px;">Tu personaje no cumplió los estándares. La doncella de hierro se cierra sobre ella.<br>
+        <em style="color: rgba(255,182,193,0.8); font-size:0.8rem;">...lo cual, claro, es una trampa.</em></p>
+      </div>
+
+      <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:14px;">
+        <button class="btn-rebirth" onclick="restartGame()" style="font-size:0.95rem; padding:10px 20px; animation:none; box-shadow: 0 0 20px rgba(255,215,0,0.5);">✦ Renacer ✦<br><span style="font-size:0.65rem; font-weight:400; opacity:0.8;">nuevo personaje</span></button>
+        <button class="btn-rebirth" onclick="reviveGame()" style="background: linear-gradient(135deg, #888, #555, #333); box-shadow: 0 0 14px rgba(136,136,136,0.4); font-size:0.95rem; padding:10px 20px; animation:none;">⟳ Revivir ⟳<br><span style="font-size:0.65rem; font-weight:400; opacity:0.8;">mismo personaje</span></button>
+      </div>
+    </div>
+
+    <!-- END -->
+    <div id="end-screen" class="screen game-card">
+      <h2>✦ Resultado final ✦</h2>
+      <span id="invisibility-score">0%</span>
+      <div id="invisibility-label">de visibilidad ante la mirada masculina</div>
+      <div id="score-commentary"></div>
+      <br>
+      <button class="btn-primary" onclick="showWolfQuote()">continuar →</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- HP BAR -->
+<div id="hp-bar-container">
+  <div id="hp-bar-inner">
+    <span class="hp-label">visibilidad</span>
+    <div id="hp-track">
+      <div id="hp-fill" style="width:50%"></div>
+    </div>
+    <span id="hp-value">50%</span>
+  </div>
+</div>
+
+<!-- WOLF QUOTE OVERLAY -->
+<div id="wolf-overlay">
+  <div id="wolf-box">
+    <blockquote>
+      "Estamos en medio de un violento contragolpe en contra del feminismo que usa imágenes de belleza femenina como arma política contra el avance de las mujeres: el mito de la belleza [...] A causa de esta presión, la modelo juvenil y delgada sustituyó a la feliz ama de casa como árbitro del estado femenino exitoso [...] La pornografía de la belleza, que por primera vez en la historia de las mujeres liga directa y explícitamente la 'belleza' a la sexualidad, socava la nueva y frágil sensación de autoestima sexual."
+    </blockquote>
+    <span class="wolf-source">Naomi Wolf · El Mito de la Belleza · 1990</span>
+    <p style="color: rgba(255,255,255,0.5); font-size:0.8rem; margin-bottom:22px;">Solo puedes salir reiniciando el juego.</p>
+    <button class="btn-primary" onclick="restartGame()">↺ Reiniciar desde el principio</button>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// DATA: 15 preguntas con opciones, puntos, feedback y efectos
+// Puntos = male gaze logic:
+//   +pts = más visible/aceptada por la mirada masculina (barra sube)
+//   -pts = rechazada (barra baja)
+//   0 = irrelevante para el male gaze
+// HP start = 50. Rango 0-100. <0 = muerte.
+// ============================================================
+
+const questions = [
+  {
+    id: 1,
+    category: "Color de piel",
+    title: "Elige el color de piel de tu personaje",
+    layer: "skin",
+    options: [
+      {
+        label: "Latina summer",
+        pts: -8,
+        feedback: "Bronceada sin ser 'demasiado oscura'. Exotizada pero no blanqueada. La mirada colonial te acepta solo en temporada.",
+        ptsLabel: "-8 pts",
+        ptsClass: "pts-neg",
+        applySkin: "latina",
+      },
+      {
+        label: "Porcelain skin",
+        pts: +12,
+        feedback: "El ideal eurocéntrico de la piel clara como símbolo de pureza, clase y deseo. El blanqueamiento como estándar global.",
+        ptsLabel: "+12 pts",
+        ptsClass: "pts-pos",
+        applySkin: "porcelain",
+      }
+    ]
+  },
+  {
+    id: 2,
+    category: "Textura de piel",
+    title: "¿Cómo es la textura de piel de tu personaje?",
+    layer: "skin2",
+    options: [
+      {
+        label: "Sin filtro",
+        pts: -10,
+        feedback: "Poros, estrías, granos, cicatrices: tu piel real. Inviable en la economía de la imagen. El capitalismo no monetiza lo sin filtro.",
+        ptsLabel: "-10 pts",
+        ptsClass: "pts-neg",
+        applySkinTexture: "natural",
+      },
+      {
+        label: "Glass skin",
+        pts: +10,
+        feedback: "La piel perfectamente translúcida. Un ideal coreano globalizado por el mercado del skincare. Costoso, efímero, deseado.",
+        ptsLabel: "+10 pts",
+        ptsClass: "pts-pos",
+        applySkinTexture: "glass",
+      }
+    ]
+  },
+  {
+    id: 3,
+    category: "Edad",
+    title: "¿Qué edad tiene tu personaje?",
+    layer: "age",
+    options: [
+      {
+        label: "Cool grandma",
+        pts: -15,
+        feedback: "Envejecer con dignidad y estilo propio es imperdonable. La mirada masculina no tolera el tiempo en los cuerpos femeninos.",
+        ptsLabel: "-15 pts",
+        ptsClass: "pts-neg",
+        applyAge: "old",
+      },
+      {
+        label: "Lolita",
+        pts: +15,
+        feedback: "El botox, el retinol, el miedo. La industria antiedad genera billones porque envejecer siendo mujer es considerado un fracaso.",
+        ptsLabel: "+15 pts",
+        ptsClass: "pts-pos",
+        applyAge: "young",
+      }
+    ]
+  },
+  {
+    id: 4,
+    category: "Complexión",
+    title: "¿Cuál es la complexión de tu personaje?",
+    layer: "body",
+    options: [
+      {
+        label: "Heroin chic",
+        pts: +8,
+        feedback: "La delgadez extrema estetizada. En los 90 los ángeles de Victoria's Secret. Hoy los ozempic bodies. Te ves frágil y ocupas menos espacio: eso es la tendencia.",
+        ptsLabel: "+8 pts",
+        ptsClass: "pts-pos",
+        applyBody: "thin",
+      },
+      {
+        label: "Thicc baddie",
+        pts: +5,
+        feedback: "Curvas 'aceptables': glúteos grandes, cintura fina. Un ideal racializado, apropiado por el mainstream. Aceptada condicionalmente.",
+        ptsLabel: "+5 pts",
+        ptsClass: "pts-pos",
+        applyBody: "curvy",
+      }
+    ]
+  },
+  {
+    id: 5,
+    category: "Pecho",
+    title: "¿Y el pecho de tu personaje?",
+    layer: "chest",
+    options: [
+      {
+        label: "Mastopexia con aumento",
+        pts: +12,
+        feedback: "El cuerpo quirúrgicamente optimizado para el deseo ajeno. La industria de la cirugía estética factura sobre la inseguridad fabricada.",
+        ptsLabel: "+12 pts",
+        ptsClass: "pts-pos",
+        applyChest: "augmented",
+      },
+      {
+        label: "Small tits, big heart",
+        pts: +6,
+        feedback: "Las tetas pequeñas dan un aire de elegancia de supermodelo: lisas, altas, sin gravedad. Si pudieras tenerlas grandes y naturales sería mejor, pero ante la caída, mejor chicas. El mercado lo sabe: el push-up lleva décadas vendiéndote lo que 'te falta'.",
+        ptsLabel: "+6 pts",
+        ptsClass: "pts-pos",
+        applyChest: "small",
+      }
+    ]
+  },
+  {
+    id: 6,
+    category: "Vello corporal",
+    title: "¿Cómo maneja el vello tu personaje?",
+    layer: "bodyhair",
+    options: [
+      {
+        label: "Bush back",
+        pts: -12,
+        feedback: "Tu vello es antihigiénico por ser mujer. Aunque el rastrillo rosa cueste el doble que el azul, deberías usarlo de una vez.",
+        ptsLabel: "-12 pts",
+        ptsClass: "pts-neg",
+        applyHairBody: "hairy",
+      },
+      {
+        label: "Depilación láser",
+        pts: +10,
+        feedback: "La depilación permanente: máxima inversión en la borradura del propio cuerpo. El dolor y el dinero como ritual de feminidad.",
+        ptsLabel: "+10 pts",
+        ptsClass: "pts-pos",
+        applyHairBody: "smooth",
+      }
+    ]
+  },
+  {
+    id: 7,
+    category: "Maquillaje",
+    title: "¿Cuál es el look facial de tu personaje?",
+    layer: "makeup",
+    options: [
+      {
+        label: "Barbiecore",
+        pts: +9,
+        feedback: "El maquillaje maximalista como performance de hiperfeminidad. Barbie como ideal y trampa. Rosado como armadura.",
+        ptsLabel: "+9 pts",
+        ptsClass: "pts-pos",
+        applyMakeup: "barbiecore",
+      },
+      {
+        label: "No makeup makeup",
+        pts: +11,
+        feedback: "El ideal más perverso: parecer natural invirtiendo horas y dinero. La ilusión de lo sin esfuerzo como máxima aspiración.",
+        ptsLabel: "+11 pts",
+        ptsClass: "pts-pos",
+        applyMakeup: "nomakeup",
+      }
+    ]
+  },
+  {
+    id: 8,
+    category: "Pelo",
+    title: "¿Cuál es la textura de pelo de tu personaje?",
+    layer: "hair",
+    options: [
+      {
+        label: "Método curly",
+        pts: -7,
+        feedback: "El cabello rizado como resistencia y recuperación. Siglos de colonialismo alisando el pelo de las mujeres racializadas.",
+        ptsLabel: "-7 pts",
+        ptsClass: "pts-neg",
+        applyHair: "curly",
+      },
+      {
+        label: "Keratina",
+        pts: +9,
+        feedback: "El alisado como borradura cultural. El pelo liso como estándar eurocéntrico, aceptado globalmente como 'profesional' y 'arreglado'.",
+        ptsLabel: "+9 pts",
+        ptsClass: "pts-pos",
+        applyHair: "straight",
+      }
+    ]
+  },
+  {
+    id: 9,
+    category: "Estilo",
+    title: "¿Cuál es el estilo de tu personaje?",
+    layer: "clothes",
+    options: [
+      {
+        label: "Gótica",
+        pts: +6,
+        feedback: "La subcultura oscura fetichizada por la mirada masculina: amenazante en teoría, decorativa en práctica. Aceptable si eres hegemónica y culona —el vestido negro te sienta 'muy bien'. El oscurantismo como estética de consumo.",
+        ptsLabel: "+6 pts",
+        ptsClass: "pts-pos",
+        applyClothes: "gothic",
+      },
+      {
+        label: "Clean look",
+        pts: +10,
+        feedback: "La neutralidad como señal de clase. El minimalismo blanco como nuevo lujo. La apariencia de 'no intentarlo demasiado'.",
+        ptsLabel: "+10 pts",
+        ptsClass: "pts-pos",
+        applyClothes: "clean",
+      }
+    ]
+  },
+  {
+    id: 10,
+    category: "Relación con la comida",
+    title: "¿Cómo te relacionas con la comida?",
+    layer: "extras",
+    options: [
+      {
+        label: "Hot girl eats",
+        pts: -3,
+        feedback: "Comer sin culpa como acto radical. La mujer que come libremente incomoda porque rechaza la docilidad del hambre performativo.",
+        ptsLabel: "-3 pts",
+        ptsClass: "pts-neg",
+        applyExtra: "eats",
+      },
+      {
+        label: "Almond mom",
+        pts: +7,
+        feedback: "El hambre como disciplina moral. La restricción alimentaria como señal de autocontrol, elegancia y superioridad femenina.",
+        ptsLabel: "+7 pts",
+        ptsClass: "pts-pos",
+        applyExtra: "almond",
+      }
+    ]
+  },
+  {
+    id: 11,
+    category: "Relación con el cuerpo",
+    title: "¿Cómo te relacionas con tu cuerpo?",
+    layer: "extras2",
+    options: [
+      {
+        label: "Body checking / body dysmorphia",
+        pts: +4,
+        feedback: "La vigilancia obsesiva del cuerpo es el producto más rentable del patriarcado. Y ponerle nombres clínicos —'dismorfia', 'trastorno'— lo individualiza: tu problema, tu diagnóstico, tu culpa. Así no hay sistema que atacar, solo una paciente que tratar. El autocontrol como virtud; la patología como contención.",
+        ptsLabel: "+4 pts",
+        ptsClass: "pts-pos",
+        applyExtra2: "checking",
+      },
+      {
+        label: "Body neutral / body positive",
+        pts: +8,
+        feedback: "Forzarnos a estar 'en paz' con el cuerpo genera culpa individual por cómo nos sentimos —no le está permitido a nadie estar mal—, en lugar de delegar la responsabilidad a la violencia sistémica de narrativas publicitarias, televisivas y algorítmicas. Silencia la dismorfia real: si decir que te odias es tabú, nunca podremos hacer una revolución juntas.",
+        ptsLabel: "+8 pts",
+        ptsClass: "pts-pos",
+        applyExtra2: "positive",
+      }
+    ]
+  },
+  {
+    id: 12,
+    category: "Ambición",
+    title: "¿Cuál es tu relación con el poder?",
+    layer: "personality",
+    options: [
+      {
+        label: "Girlboss",
+        pts: -9,
+        feedback: "Ocupar espacio intelectual y profesional: inspiradora en el discurso, incómoda en la práctica. El sistema la aplaude hasta que cambia las reglas.",
+        ptsLabel: "-9 pts",
+        ptsClass: "pts-neg",
+        applyPersonality: "girlboss",
+      },
+      {
+        label: "Girl failure",
+        pts: -8,
+        feedback: "Te negaste a hacer horas extra no remuneradas de feminidad. Eso se llama fracaso.",
+        ptsLabel: "-8 pts",
+        ptsClass: "pts-neg",
+        applyPersonality: "fail",
+      }
+    ]
+  },
+  {
+    id: 13,
+    category: "Relaciones",
+    title: "¿Cómo eres en tus relaciones?",
+    layer: "social",
+    options: [
+      {
+        label: "Low maintenance",
+        pts: +13,
+        feedback: "La fantasía masculina: una mujer sin necesidades propias. 'Fácil', 'sin drama'. La supresión emocional como virtud.",
+        ptsLabel: "+13 pts",
+        ptsClass: "pts-pos",
+        applySocial: "low",
+      },
+      {
+        label: "Diva",
+        pts: -12,
+        feedback: "Tener exigencias, límites, necesidades. La mujer que sabe lo que quiere es 'difícil'. Sus estándares son su delito.",
+        ptsLabel: "-12 pts",
+        ptsClass: "pts-neg",
+        applySocial: "diva",
+      }
+    ]
+  },
+  {
+    id: 14,
+    category: "Energía",
+    title: "¿Cuál es tu energía?",
+    layer: "energy",
+    options: [
+      {
+        label: "Manic pixie dream girl",
+        pts: +8,
+        feedback: "El tropo cinematográfico: la mujer excéntrica que existe para inspirar al protagonista masculino. Sin historia propia.",
+        ptsLabel: "+8 pts",
+        ptsClass: "pts-pos",
+        applyEnergy: "mpdg",
+      },
+      {
+        label: "Main character",
+        pts: -6,
+        feedback: "Ser el centro de tu propia historia. Tomar espacio. La mujer que no orbita alrededor de los hombres resulta amenazante.",
+        ptsLabel: "-6 pts",
+        ptsClass: "pts-neg",
+        applyEnergy: "main",
+      }
+    ]
+  },
+  {
+    id: 15,
+    category: "Inteligencia",
+    title: "¿Y tu inteligencia?",
+    layer: "intel",
+    options: [
+      {
+        label: "It Girl",
+        pts: +1,
+        feedback: "La inteligencia femenina aceptada solo cuando parece accidental, no amenazante. Solo vale +1 punto: el male gaze no premia el pensamiento.",
+        ptsLabel: "+1 pt",
+        ptsClass: "pts-zero",
+        applyIntel: "smart",
+      },
+      {
+        label: "Brain fog",
+        pts: +2,
+        feedback: "La confusión mental performativa seduce más que la lucidez: así los demás pueden sentirse útiles explicándote cosas. Solo vale +2, pero ahí están, encantados.",
+        ptsLabel: "+2 pts",
+        ptsClass: "pts-zero",
+        applyIntel: "foggy",
+      }
+    ]
+  },
+  {
+    id: 16,
+    category: "Deseo",
+    title: "¿Cómo es tu libido?",
+    layer: "desire",
+    options: [
+      {
+        label: "Alta",
+        pts: -8,
+        feedback: "Décadas de liberación sexual y los hombres siguen usando la ninfomanía y la hipersexualidad para patologizarte. Puedes follar, pero no desear: el deseo femenino activo rompe el guion. Eres objeto deseado, no sujeto deseante. Quererlo tú es demasiado.",
+        ptsLabel: "-8 pts",
+        ptsClass: "pts-neg",
+        applyDesire: "high",
+      },
+      {
+        label: "Baja",
+        pts: -6,
+        feedback: "Tu deseo solo es correcto cuando coincide con el de ellos. Se espera que su placer sea el tuyo, incluso si tú no consientes.",
+        ptsLabel: "-6 pts",
+        ptsClass: "pts-neg",
+        applyDesire: "low",
+      }
+    ]
+  }
+];
+
+// ============================================================
+// AVATAR STATE
+// ============================================================
+const avatarState = {};
+
+// ============================================================
+// AVATAR SVG SYSTEM (from v2 — paper-doll style)
+// ============================================================
+function buildAvatarSVG(svgEl, state) {
+  const skinColor = state.skin === 'latina' ? '#d4956a' :
+                    state.skin === 'porcelain' ? '#f5dcc8' : '#e8c4a0';
+  // Darker undertone accent for skin variety
+  const skinShade = state.skin === 'latina' ? '#b87248' :
+                    state.skin === 'porcelain' ? '#e8c8b0' : '#d4a87a';
+  const skinTexture = state.skin_texture === 'glass';
+  const isThicc = state.body === 'curvy';
+  const isThin = state.body === 'thin';
+  const hasAugmented = state.applyChest === 'augmented';
+  const hasSmallChest = state.applyChest === 'small';
+  const noBodyHair = state.bodyhair === 'smooth';
+  const isHairy = state.bodyhair === 'hairy';
+  const makeupColor = state.makeup === 'barbiecore' ? '#ff69b4' : '#c88890';
+  const hairColor = state.hair === 'straight' ? '#c8a030' : '#3a1f10';
+  const isCurly = state.hair === 'curly';
+  const isStraight = state.hair === 'straight';
+  const energyColor = state.energy === 'mpdg' ? '#9933cc' : '#cc3366';
+  const hasWrinkles = state.age === 'old';
+  const isYoung = state.age === 'young';
+
+  const bodyW = isThicc ? 54 : isThin ? 36 : 42;
+  const bodyX = (160 - bodyW) / 2;
+
+  // ── HAIR ──
+  let hairPath = '';
+  if (!state.hair) {
+    // default simple bun
+    hairPath = `<g fill="#8B5E3C"><ellipse cx="80" cy="32" rx="28" ry="24"/></g>`;
+  } else if (isCurly) {
+    hairPath = `
+      <g fill="${hairColor}">
+        <ellipse cx="80" cy="34" rx="38" ry="32"/>
+        <circle cx="50" cy="50" r="16"/>
+        <circle cx="110" cy="48" r="15"/>
+        <circle cx="42" cy="38" r="12"/>
+        <circle cx="118" cy="36" r="11"/>
+        <circle cx="58" cy="62" r="10"/>
+        <circle cx="102" cy="60" r="10"/>
+      </g>`;
+  } else {
+    // straight / keratina — sleek long hair
+    hairPath = `
+      <g fill="${hairColor}">
+        <ellipse cx="80" cy="32" rx="32" ry="28"/>
+        <rect x="46" y="30" width="14" height="80" rx="7"/>
+        <rect x="100" y="30" width="14" height="76" rx="7"/>
+        <path d="M46 110 Q44 130 48 148" stroke="${hairColor}" stroke-width="14" fill="none" stroke-linecap="round"/>
+        <path d="M114 110 Q116 128 112 146" stroke="${hairColor}" stroke-width="14" fill="none" stroke-linecap="round"/>
+      </g>`;
+  }
+
+  // ── CLOTHES ──
+  let clothingPath = '';
+  if (state.clothes === 'gothic') {
+    clothingPath = `
+      <g>
+        <path d="M${bodyX} 130 Q80 136 ${bodyX+bodyW} 130 L${bodyX+bodyW+12} 200 L${bodyX-12} 200 Z" fill="#111111"/>
+        <path d="M${bodyX} 130 L${bodyX-16} 106 L${bodyX+5} 118 Z" fill="#1a1a1a"/>
+        <path d="M${bodyX+bodyW} 130 L${bodyX+bodyW+16} 106 L${bodyX+bodyW-5} 118 Z" fill="#1a1a1a"/>
+        <path d="M${bodyX+4} 140 Q80 146 ${bodyX+bodyW-4} 140 L${bodyX+bodyW+8} 200 L${bodyX-8} 200 Z" fill="#220022" opacity="0.5"/>
+        <ellipse cx="80" cy="115" rx="6" ry="5" fill="#440044" opacity="0.7"/>
+        <!-- gothic lace collar detail -->
+        <path d="M${bodyX+4} 108 Q80 116 ${bodyX+bodyW-4} 108" stroke="#333" stroke-width="2" fill="none"/>
+      </g>`;
+  } else if (state.clothes === 'clean') {
+    clothingPath = `
+      <g>
+        <path d="M${bodyX} 130 Q80 136 ${bodyX+bodyW} 130 L${bodyX+bodyW+10} 200 L${bodyX-10} 200 Z" fill="#f0f0f0"/>
+        <path d="M${bodyX} 130 L${bodyX-14} 108 L${bodyX+6} 118 Z" fill="#e0e0e0"/>
+        <path d="M${bodyX+bodyW} 130 L${bodyX+bodyW+14} 108 L${bodyX+bodyW-6} 118 Z" fill="#e0e0e0"/>
+        <!-- clean minimal collar line -->
+        <path d="M${bodyX+8} 112 Q80 120 ${bodyX+bodyW-8} 112" stroke="#d0d0d0" stroke-width="1.5" fill="none"/>
+      </g>`;
+  } else if (!state.clothes) {
+    clothingPath = `
+      <g>
+        <path d="M${bodyX} 130 Q80 138 ${bodyX+bodyW} 130 L${bodyX+bodyW+10} 200 L${bodyX-10} 200 Z" fill="#FF69B4"/>
+        <path d="M${bodyX} 130 L${bodyX-14} 108 L${bodyX+6} 118 Z" fill="#FF85C8"/>
+        <path d="M${bodyX+bodyW} 130 L${bodyX+bodyW+14} 108 L${bodyX+bodyW-6} 118 Z" fill="#FF85C8"/>
+      </g>`;
+  } else {
+    clothingPath = `
+      <g>
+        <path d="M${bodyX} 130 Q80 136 ${bodyX+bodyW} 130 L${bodyX+bodyW+10} 200 L${bodyX-10} 200 Z" fill="#cccccc"/>
+        <path d="M${bodyX} 130 L${bodyX-14} 108 L${bodyX+6} 118 Z" fill="#bbbbbb"/>
+        <path d="M${bodyX+bodyW} 130 L${bodyX+bodyW+14} 108 L${bodyX+bodyW-6} 118 Z" fill="#bbbbbb"/>
+      </g>`;
+  }
+
+  // ── BODY HAIR (legs, armpits) — as bush / fluffy, not thin lines ──
+  let bodyHairPath = '';
+  if (isHairy) {
+    bodyHairPath = `
+      <g fill="#7a5c3a" opacity="0.78">
+        <!-- pubic bush — frondoso, like a real shrub -->
+        <ellipse cx="80" cy="156" rx="13" ry="7" fill="#6b4e2e" opacity="0.85"/>
+        <ellipse cx="73" cy="153" rx="7" ry="5" fill="#7a5c3a" opacity="0.9"/>
+        <ellipse cx="87" cy="153" rx="7" ry="5" fill="#7a5c3a" opacity="0.9"/>
+        <ellipse cx="80" cy="150" rx="10" ry="5" fill="#8a6a45" opacity="0.8"/>
+        <ellipse cx="76" cy="148" rx="5" ry="4" fill="#7a5c3a" opacity="0.7"/>
+        <ellipse cx="84" cy="148" rx="5" ry="4" fill="#7a5c3a" opacity="0.7"/>
+        <!-- leg hair — small tufts -->
+        <ellipse cx="68" cy="170" rx="3.5" ry="2" fill="#7a5c3a" opacity="0.55"/>
+        <ellipse cx="93" cy="170" rx="3.5" ry="2" fill="#7a5c3a" opacity="0.55"/>
+        <ellipse cx="66" cy="178" rx="3" ry="1.8" fill="#7a5c3a" opacity="0.45"/>
+        <ellipse cx="95" cy="178" rx="3" ry="1.8" fill="#7a5c3a" opacity="0.45"/>
+        <!-- armpit hair — bushy -->
+        <ellipse cx="${bodyX-6}" cy="118" rx="5" ry="3.5" fill="#7a5c3a" opacity="0.75"/>
+        <ellipse cx="${bodyX-8}" cy="114" rx="4" ry="3" fill="#8a6a45" opacity="0.65"/>
+        <ellipse cx="${bodyX+bodyW+6}" cy="118" rx="5" ry="3.5" fill="#7a5c3a" opacity="0.75"/>
+        <ellipse cx="${bodyX+bodyW+8}" cy="114" rx="4" ry="3" fill="#8a6a45" opacity="0.65"/>
+      </g>`;
+  }
+
+  // ── MAKEUP ──
+  let makeupPath = '';
+  if (state.makeup === 'barbiecore') {
+    makeupPath = `
+      <g>
+        <ellipse cx="80" cy="76" rx="9" ry="4" fill="${makeupColor}"/>
+        <ellipse cx="63" cy="68" rx="7" ry="4" fill="${makeupColor}" opacity="0.35"/>
+        <ellipse cx="97" cy="68" rx="7" ry="4" fill="${makeupColor}" opacity="0.35"/>
+        <ellipse cx="71" cy="61" rx="7" ry="3" fill="${makeupColor}" opacity="0.5"/>
+        <ellipse cx="89" cy="61" rx="7" ry="3" fill="${makeupColor}" opacity="0.5"/>
+        <!-- dramatic lashes -->
+        <line x1="66" y1="59" x2="64" y2="55" stroke="#220011" stroke-width="1.5"/>
+        <line x1="69" y1="58" x2="68" y2="54" stroke="#220011" stroke-width="1.5"/>
+        <line x1="72" y1="58" x2="72" y2="54" stroke="#220011" stroke-width="1.5"/>
+        <line x1="75" y1="58" x2="76" y2="55" stroke="#220011" stroke-width="1.5"/>
+        <line x1="84" y1="59" x2="83" y2="55" stroke="#220011" stroke-width="1.5"/>
+        <line x1="88" y1="58" x2="88" y2="54" stroke="#220011" stroke-width="1.5"/>
+        <line x1="91" y1="59" x2="93" y2="55" stroke="#220011" stroke-width="1.5"/>
+        <line x1="94" y1="60" x2="96" y2="57" stroke="#220011" stroke-width="1.5"/>
+        <!-- glitter liner -->
+        <path d="M64 59 Q71 57 78 59" stroke="#ff99cc" stroke-width="1.2" fill="none" opacity="0.9"/>
+        <path d="M82 59 Q89 57 96 59" stroke="#ff99cc" stroke-width="1.2" fill="none" opacity="0.9"/>
+      </g>`;
+  } else if (state.makeup === 'nomakeup') {
+    makeupPath = `
+      <g>
+        <!-- subtle tinted moisturizer blush -->
+        <ellipse cx="80" cy="76" rx="7" ry="3" fill="#e8a090" opacity="0.8"/>
+        <ellipse cx="63" cy="68" rx="5" ry="3" fill="#e8b0a0" opacity="0.25"/>
+        <ellipse cx="97" cy="68" rx="5" ry="3" fill="#e8b0a0" opacity="0.25"/>
+        <!-- subtle brow grooming -->
+        <path d="M64 57 Q70 54 76 56" stroke="#6a4020" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+        <path d="M84 57 Q90 54 96 56" stroke="#6a4020" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+      </g>`;
+  } else {
+    makeupPath = `
+      <g>
+        <ellipse cx="80" cy="76" rx="7" ry="3" fill="#e8a090" opacity="0.8"/>
+      </g>`;
+  }
+
+  // ── AGE DETAILS ──
+  let ageDetails = '';
+  if (hasWrinkles) {
+    ageDetails = `
+      <g stroke="#c09070" stroke-width="0.9" opacity="0.65" fill="none">
+        <!-- forehead lines -->
+        <path d="M66 50 Q80 48 94 50"/>
+        <path d="M70 46 Q80 44 90 46"/>
+        <!-- crow's feet -->
+        <path d="M62 62 Q64 61 66 62"/>
+        <path d="M60 65 Q62 64 65 65"/>
+        <path d="M94 62 Q96 61 98 62"/>
+        <path d="M95 65 Q97 64 100 65"/>
+        <!-- nasolabial -->
+        <path d="M70 75 Q68 80 70 84"/>
+        <path d="M90 75 Q92 80 90 84"/>
+        <!-- smile lines -->
+        <path d="M72 80 Q75 82 90 80"/>
+        <line x1="58" y1="72" x2="64" y2="74"/>
+      </g>
+      <!-- silver hair highlight -->
+      <rect x="74" y="10" width="3" height="22" rx="1.5" fill="#ddd" opacity="0.5"/>
+      <rect x="80" y="8" width="3" height="24" rx="1.5" fill="#ccc" opacity="0.4"/>`;
+  } else if (isYoung) {
+    ageDetails = `
+      <!-- youthful rosy cheeks -->
+      <ellipse cx="63" cy="70" rx="7" ry="4" fill="#ffb6c1" opacity="0.3"/>
+      <ellipse cx="97" cy="70" rx="7" ry="4" fill="#ffb6c1" opacity="0.3"/>`;
+  }
+
+  // ── CHEST (drawn ABOVE clothing, before it in SVG so clothes overlay correctly) ──
+  // We render chest BEFORE clothing so clothes sit on top naturally
+  let chestPath = '';
+  if (hasAugmented) {
+    // large, prominent, clearly visible breasts
+    const cx1 = 80 - bodyW/4 - 2;
+    const cx2 = 80 + bodyW/4 + 2;
+    chestPath = `
+      <g>
+        <!-- augmented bust — prominently shaped -->
+        <ellipse cx="${cx1}" cy="118" rx="13" ry="14" fill="${skinColor}"/>
+        <ellipse cx="${cx2}" cy="118" rx="13" ry="14" fill="${skinColor}"/>
+        <ellipse cx="${cx1}" cy="118" rx="11" ry="12" fill="${skinShade}" opacity="0.25"/>
+        <ellipse cx="${cx2}" cy="118" rx="11" ry="12" fill="${skinShade}" opacity="0.25"/>
+        <!-- cleavage shadow -->
+        <path d="M${cx1+8} 110 Q80 122 ${cx2-8} 110" stroke="${skinShade}" stroke-width="1.5" fill="none" opacity="0.5"/>
+        <!-- under-bust curve -->
+        <path d="M${cx1-8} 129 Q80 136 ${cx2+8} 129" stroke="${skinShade}" stroke-width="1" fill="none" opacity="0.4"/>
+      </g>`;
+  } else if (hasSmallChest) {
+    // small, elegant
+    const cx1 = 80 - bodyW/4;
+    const cx2 = 80 + bodyW/4;
+    chestPath = `
+      <g>
+        <ellipse cx="${cx1}" cy="121" rx="7" ry="6" fill="${skinColor}" opacity="0.9"/>
+        <ellipse cx="${cx2}" cy="121" rx="7" ry="6" fill="${skinColor}" opacity="0.9"/>
+        <ellipse cx="${cx1}" cy="121" rx="5.5" ry="4.5" fill="${skinShade}" opacity="0.18"/>
+        <ellipse cx="${cx2}" cy="121" rx="5.5" ry="4.5" fill="${skinShade}" opacity="0.18"/>
+        <path d="M${cx1+4} 124 Q80 128 ${cx2-4} 124" stroke="${skinShade}" stroke-width="0.8" fill="none" opacity="0.35"/>
+      </g>`;
+  }
+
+  // ── FACIAL HAIR (vello facial — bushy beard/stubble as shrub, not threads) ──
+  let facialHairPath = '';
+  if (isHairy) {
+    facialHairPath = `
+      <g fill="#5a3a1a" opacity="0.72">
+        <!-- upper lip stubble — dense oval -->
+        <ellipse cx="80" cy="77" rx="10" ry="3.5" fill="#6b4a25" opacity="0.75"/>
+        <!-- chin beard — main bush body -->
+        <ellipse cx="80" cy="83" rx="12" ry="6" fill="#5a3a1a" opacity="0.8"/>
+        <!-- layered fronds for fullness -->
+        <ellipse cx="72" cy="81" rx="7" ry="4.5" fill="#6b4a25" opacity="0.7"/>
+        <ellipse cx="88" cy="81" rx="7" ry="4.5" fill="#6b4a25" opacity="0.7"/>
+        <ellipse cx="78" cy="86" rx="8" ry="4" fill="#5a3a1a" opacity="0.75"/>
+        <ellipse cx="82" cy="86" rx="8" ry="4" fill="#5a3a1a" opacity="0.75"/>
+        <!-- outer bush wisps -->
+        <ellipse cx="68" cy="79" rx="4" ry="3" fill="#7a5c3a" opacity="0.55"/>
+        <ellipse cx="92" cy="79" rx="4" ry="3" fill="#7a5c3a" opacity="0.55"/>
+        <ellipse cx="75" cy="88" rx="5" ry="3" fill="#6b4a25" opacity="0.6"/>
+        <ellipse cx="85" cy="88" rx="5" ry="3" fill="#6b4a25" opacity="0.6"/>
+        <!-- cheek stubble -->
+        <ellipse cx="64" cy="70" rx="5" ry="3" fill="#7a5c3a" opacity="0.4"/>
+        <ellipse cx="96" cy="70" rx="5" ry="3" fill="#7a5c3a" opacity="0.4"/>
+        <ellipse cx="62" cy="74" rx="4" ry="2.5" fill="#7a5c3a" opacity="0.35"/>
+        <ellipse cx="98" cy="74" rx="4" ry="2.5" fill="#7a5c3a" opacity="0.35"/>
+      </g>`;
+  }
+
+  // ── ENERGY AURA ──
+  let energyAura = '';
+  if (state.energy === 'mpdg') {
+    energyAura = `
+      <circle cx="80" cy="58" r="36" fill="none" stroke="#9933cc" stroke-width="1.5" opacity="0.25" stroke-dasharray="3,4"/>
+      <circle cx="80" cy="58" r="40" fill="none" stroke="#cc66ff" stroke-width="0.8" opacity="0.15"/>`;
+  } else if (state.energy === 'main') {
+    energyAura = `
+      <path d="M80 18 L84 28 L95 28 L86 35 L89 46 L80 40 L71 46 L74 35 L65 28 L76 28 Z" fill="${energyColor}" opacity="0.35"/>`;
+  }
+
+  // ── SKIN TEXTURE glow filter ──
+  const glowFilter = skinTexture ? `
+    <defs>
+      <filter id="glow">
+        <feGaussianBlur stdDeviation="2.5" result="blur"/>
+        <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+      </filter>
+    </defs>` : '';
+  const glowAttr = skinTexture ? 'filter="url(#glow)"' : '';
+
+  // ── SKIN TEXTURE freckles / spots ──
+  let skinTextureDetail = '';
+  if (state.skin_texture === 'natural') {
+    skinTextureDetail = `
+      <g fill="${skinShade}" opacity="0.5">
+        <circle cx="72" cy="54" r="1.2"/>
+        <circle cx="68" cy="60" r="1"/>
+        <circle cx="85" cy="52" r="1.3"/>
+        <circle cx="91" cy="58" r="1"/>
+        <circle cx="79" cy="50" r="0.9"/>
+        <!-- small blemish -->
+        <circle cx="75" cy="66" r="1.5" fill="#c09090" opacity="0.4"/>
+      </g>`;
+  } else if (state.skin_texture === 'glass') {
+    skinTextureDetail = `
+      <!-- glass skin highlight -->
+      <ellipse cx="76" cy="52" rx="6" ry="4" fill="white" opacity="0.18"/>
+      <ellipse cx="84" cy="48" rx="3" ry="2" fill="white" opacity="0.12"/>`;
+  }
+
+  // ── COMPOSE SVG ──
+  svgEl.innerHTML = `
+    ${glowFilter}
+    ${energyAura}
+    ${hairPath}
+    <g ${glowAttr}>
+      <!-- torso / neck / head -->
+      <rect x="${bodyX}" y="110" width="${bodyW}" height="80" rx="10" fill="${skinColor}"/>
+      <rect x="73" y="88" width="14" height="26" rx="6" fill="${skinColor}"/>
+      <ellipse cx="80" cy="58" rx="30" ry="33" fill="${skinColor}"/>
+    </g>
+    ${skinTextureDetail}
+    ${chestPath}
+    ${bodyHairPath}
+    ${clothingPath}
+    <!-- eyes -->
+    <ellipse cx="71" cy="62" rx="7" ry="5" fill="white"/>
+    <ellipse cx="89" cy="62" rx="7" ry="5" fill="white"/>
+    <circle cx="72" cy="62" r="3.5" fill="${energyColor}"/>
+    <circle cx="90" cy="62" r="3.5" fill="${energyColor}"/>
+    <circle cx="73" cy="61" r="1" fill="#fff"/>
+    <circle cx="91" cy="61" r="1" fill="#fff"/>
+    <!-- brows -->
+    <path d="M64 56 Q71 53 76 56" stroke="#4a2c1a" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <path d="M84 56 Q89 53 96 56" stroke="#4a2c1a" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <!-- nose -->
+    <path d="M78 66 Q80 72 82 66" stroke="#c09070" stroke-width="1.2" fill="none"/>
+    ${makeupPath}
+    ${facialHairPath}
+    ${ageDetails}
+    <!-- ears -->
+    <ellipse cx="50" cy="60" rx="5" ry="7" fill="${skinColor}"/>
+    <ellipse cx="110" cy="60" rx="5" ry="7" fill="${skinColor}"/>
+  `;
+}
+
+function syncAvatar() {
+  const svgEl = document.getElementById('avatar-svg');
+  if (svgEl) buildAvatarSVG(svgEl, avatarState);
+}
+
+// ============================================================
+// GAME STATE
+// ============================================================
+let hp = 50;
+let currentQ = 0;
+let selectedOption = null;
+let answers = [];
+
+const HP_MAX = 100;
+const HP_DEATH = 30; // GAME OVER threshold
+
+function startGame() {
+  showScreen('question-screen');
+  renderQuestion();
+  initDots();
+}
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function initDots() {
+  const container = document.getElementById('progress-dots');
+  container.innerHTML = '';
+  container.style.display = 'grid';
+  container.style.gridTemplateColumns = 'repeat(8, 10px)';
+  container.style.gridTemplateRows = 'auto auto';
+  container.style.gap = '5px';
+  container.style.justifyContent = 'center';
+  container.style.padding = '8px 10px';
+  for (let i = 0; i < questions.length; i++) {
+    const dot = document.createElement('div');
+    dot.className = 'dot' + (i === 0 ? ' current' : '');
+    dot.id = `dot-${i}`;
+    container.appendChild(dot);
+  }
+}
+
+function updateDots(index) {
+  for (let i = 0; i < questions.length; i++) {
+    const dot = document.getElementById(`dot-${i}`);
+    if (!dot) continue;
+    dot.className = 'dot';
+    if (i < index) dot.classList.add('done');
+    else if (i === index) dot.classList.add('current');
+  }
+}
+
+function renderQuestion() {
+  const q = questions[currentQ];
+  document.getElementById('q-number-label').textContent = `Pregunta ${q.id} de ${questions.length}`;
+  document.getElementById('q-category-label').textContent = q.category;
+  document.getElementById('q-title-text').textContent = q.title;
+  document.getElementById('progress-label').textContent = `${currentQ + 1} / ${questions.length}`;
+
+  const container = document.getElementById('options-container');
+  container.innerHTML = '';
+
+  q.options.forEach((opt, idx) => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn';
+    btn.innerHTML = `
+      <span class="opt-label">${opt.label}</span>
+      <span class="pts-badge ${opt.ptsClass}">${opt.ptsLabel}</span>
+    `;
+    btn.addEventListener('click', () => selectOption(idx, btn));
+    container.appendChild(btn);
+  });
+
+  document.getElementById('feedback-bubble').classList.remove('visible');
+  document.getElementById('feedback-bubble').innerHTML = '';
+  document.getElementById('btn-next').disabled = true;
+  selectedOption = null;
+}
+
+function selectOption(idx, btn) {
+  document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  selectedOption = idx;
+  document.getElementById('btn-next').disabled = false;
+
+  const q = questions[currentQ];
+  const opt = q.options[idx];
+  const fb = document.getElementById('feedback-bubble');
+  fb.innerHTML = `<strong>${opt.label}</strong> — ${opt.feedback}`;
+  fb.classList.add('visible');
+
+  // apply avatar layer
+  applyLayer(q, opt);
+}
+
+function applyLayer(q, opt) {
+  // Map option properties to avatarState
+  if (opt.applySkin) avatarState.skin = opt.applySkin;
+  if (opt.applySkinTexture) avatarState.skin_texture = opt.applySkinTexture;
+  if (opt.applyBody) avatarState.body = opt.applyBody;
+  if (opt.applyClothes) avatarState.clothes = opt.applyClothes;
+  if (opt.applyHair) avatarState.hair = opt.applyHair;
+  if (opt.applyMakeup) avatarState.makeup = opt.applyMakeup;
+  if (opt.applyHairBody) avatarState.bodyhair = opt.applyHairBody;
+  if (opt.applyAge) avatarState.age = opt.applyAge;
+  if (opt.applyChest) avatarState.applyChest = opt.applyChest;
+  if (opt.applyEnergy) avatarState.energy = opt.applyEnergy;
+  if (opt.applyPersonality) avatarState.personality = opt.applyPersonality;
+  if (opt.applySocial) avatarState.social = opt.applySocial;
+  if (opt.applyIntel) avatarState.intel = opt.applyIntel;
+  if (opt.applyDesire) avatarState.desire = opt.applyDesire;
+  if (opt.applyExtra) avatarState.extra = opt.applyExtra;
+  if (opt.applyExtra2) avatarState.extra2 = opt.applyExtra2;
+  syncAvatar();
+}
+
+function nextQuestion() {
+  if (selectedOption === null) return;
+
+  const q = questions[currentQ];
+  const opt = q.options[selectedOption];
+  const pts = opt.pts;
+
+  hp = Math.max(0, Math.min(HP_MAX, hp + pts));
+  answers.push({ q: q.id, opt: opt.label, pts });
+
+  showPointsFlash(pts);
+  updateHPBar();
+
+  currentQ++;
+  updateDots(currentQ);
+
+  // GAME OVER: visibility drops to or below 30%
+  if (hp <= HP_DEATH && currentQ < questions.length) {
+    setTimeout(() => {
+      document.getElementById('iron-maiden-overlay').style.display = 'block';
+      showScreen('death-screen');
+    }, 400);
+    return;
+  }
+
+  if (currentQ >= questions.length) {
+    setTimeout(() => showEndScreen(), 400);
+    return;
+  }
+
+  renderQuestion();
+}
+
+function showPointsFlash(pts) {
+  const flash = document.createElement('div');
+  flash.className = 'pts-flash';
+  flash.textContent = pts > 0 ? `+${pts}` : `${pts}`;
+  flash.style.color = pts > 0 ? 'var(--gold)' : '#ff6688';
+  document.body.appendChild(flash);
+  setTimeout(() => flash.remove(), 1300);
+}
+
+function updateHPBar() {
+  const fill = document.getElementById('hp-fill');
+  const val = document.getElementById('hp-value');
+  const pct = Math.max(0, Math.min(100, hp));
+  fill.style.width = pct + '%';
+  val.textContent = pct + '%';
+
+  if (pct <= 30) {
+    fill.style.background = 'linear-gradient(90deg, var(--blood), #ff2040)';
+    // pulsing danger
+    fill.style.animation = 'pulse-glow 0.8s ease-in-out infinite';
+  } else if (pct < 50) {
+    fill.style.background = 'linear-gradient(90deg, #ff6b35, var(--hot-pink))';
+    fill.style.animation = '';
+  } else {
+    fill.style.background = 'linear-gradient(90deg, var(--hot-pink), var(--purple), var(--gold))';
+    fill.style.animation = '';
+  }
+
+  // Warning when approaching death threshold
+  if (pct > 30 && pct <= 42) {
+    showDangerWarning();
+  }
+}
+
+function showDangerWarning() {
+  if (document.getElementById('danger-toast')) return; // don't stack
+  const toast = document.createElement('div');
+  toast.id = 'danger-toast';
+  toast.style.cssText = `
+    position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    background: linear-gradient(135deg, rgba(10,0,8,0.97), rgba(80,0,50,0.97));
+    border: 2px solid var(--hot-pink); border-radius: 16px;
+    padding: 20px 28px; z-index: 500; text-align: center;
+    box-shadow: 0 0 40px rgba(255,20,147,0.8), 0 0 80px rgba(255,105,180,0.3); animation: fadeIn 0.3s ease;
+    max-width: 320px; font-family: 'Nunito', sans-serif;
+  `;
+  toast.innerHTML = `
+    <div style="font-size:2rem; margin-bottom:8px;">⚠</div>
+    <div style="font-family:'Fredoka One',cursive; color: var(--hot-pink); font-size:1.1rem; margin-bottom:8px; letter-spacing:1px; text-shadow: 0 0 10px rgba(255,20,147,0.8);">CUIDADO</div>
+    <div style="color:rgba(255,255,255,0.8); font-size:0.88rem; line-height:1.5;">La Doncella de Hierro está cerca.<br>Tus próximas respuestas pueden cerrar la trampa.</div>
+    <button onclick="this.parentElement.remove()" style="margin-top:14px; background: linear-gradient(135deg, var(--hot-pink), var(--purple)); color:white; border:none; border-radius:20px; padding:7px 22px; font-family:'Fredoka One',cursive; cursor:pointer; font-size:0.9rem; box-shadow: 0 0 10px rgba(255,20,147,0.5);">entendido</button>
+  `;
+  document.body.appendChild(toast);
+  setTimeout(() => { if (toast.parentElement) toast.remove(); }, 5000);
+}
+
+function showEndScreen() {
+  showScreen('end-screen');
+  // visibilidad = hp (mayor conformidad = más "visible" para la mirada masculina)
+  const vis = hp;
+  document.getElementById('invisibility-score').textContent = vis + '%';
+
+  // Set special label for low score
+  const label = document.getElementById('invisibility-label');
+  if (vis < 35) {
+    label.innerHTML = `de visibilidad · <span style="color:var(--gold); font-style:italic;">superpoder de invisibilidad desbloqueado ✦</span>`;
+  } else {
+    label.textContent = 'de visibilidad ante la mirada masculina';
+  }
+
+  let commentary = '';
+  if (vis >= 80) {
+    commentary = `Tu personaje ha alcanzado el nivel más alto de conformidad. La mirada masculina la ve perfectamente. Es el ideal. La doncella de hierro nunca se sentirá más cómoda. ¿Pero puede respirar dentro de ella?`;
+  } else if (vis >= 55) {
+    commentary = `Tu personaje ha alcanzado un nivel de conformidad tan alto que ya no lleva la doncella de hierro puesta: se ha convertido en ella. Sus picos apuntan hacia adentro. La mirada masculina la aprueba —y esa aprobación es la trampa.`;
+  } else if (vis >= 35) {
+    commentary = `Conformidad media. Tu personaje es visible e invisible al mismo tiempo. Demasiado ella para ser aceptada del todo. No suficiente ella para ser libre.`;
+  } else {
+    commentary = `La mirada masculina apenas registra a tu personaje, lo que le otorga un poder de invisibilidad. Quien no es observada, puede observar. Sin la presión constante de ser juzgada y consumida, cuentas con algo muy valioso: puedes descubrir el patrón y empujar al cambio. La doncella de hierro no pudo contigo—porque nunca te vio venir.`;
+  }
+
+  document.getElementById('score-commentary').textContent = commentary;
+}
+
+function showWolfQuote() {
+  document.getElementById('wolf-overlay').classList.add('active');
+}
+
+function restartGame() {
+  hp = 50;
+  currentQ = 0;
+  selectedOption = null;
+  answers = [];
+  document.getElementById('wolf-overlay').classList.remove('active');
+  document.getElementById('iron-maiden-overlay').style.display = 'none';
+
+  // reset avatar state
+  Object.keys(avatarState).forEach(k => delete avatarState[k]);
+  syncAvatar();
+
+  updateHPBar();
+  showScreen('intro-screen');
+  document.getElementById('progress-dots').innerHTML = '';
+}
+
+function reviveGame() {
+  document.getElementById('iron-maiden-overlay').style.display = 'none';
+  document.getElementById('wolf-overlay').classList.remove('active');
+  hp = HP_DEATH + 1;
+  updateHPBar();
+  showScreen('question-screen');
+  renderQuestion();
+  updateDots(currentQ);
+}
+
+
+updateHPBar();
+syncAvatar();
+</script>
+</body>
+</html>
